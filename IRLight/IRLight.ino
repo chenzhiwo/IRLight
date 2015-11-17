@@ -1,8 +1,13 @@
+/*应先安装IRremote这个库才可以使用*/
+/*实现了亮度的平滑过渡*/
+
 #include <IRremote.h>
 
-#define LED_PIN 6
-#define IR_PIN 12
-#define VAR_TIME 8
+#define LED_PIN 6 //接LED的PIN
+#define IR_PIN 12 //红外接受器输入Pin
+#define VAR_TIME 8  //亮度变化的延时间隔
+
+//以下是键码
 
 #define RSME  0xFFC23D
 #define MDOWN 0xFF22DD
@@ -24,9 +29,10 @@
 
 int currBright = 0;
 int lastBright = 0;
-IRrecv irrecv(IR_PIN);
+IRrecv irrecv(IR_PIN); //初始化红外接收
 decode_results results;
 
+// 平滑变化亮度
 void setBrightSmon(int newBright)
 {
   digitalWrite(LED_BUILTIN, HIGH);
@@ -76,6 +82,7 @@ void loop() {
     Serial.print("------\nIRCODE: ");
     Serial.println(results.value, HEX);
 
+//按键处理
     switch (results.value)
     {
       case RSME:
